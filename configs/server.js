@@ -3,6 +3,9 @@ import cors from "cors";
 import morgan from "morgan";
 import helmet from "helmet";
 import { dbConection } from "./mongo.js";
+import authRoutes from "../src/auth/auth.routes.js"
+import userRoutes from "../src/user/user.routes.js"
+
 
 export const middlewares = (app) => {
   app.use(express.urlencoded({ extended: false }));
@@ -13,6 +16,8 @@ export const middlewares = (app) => {
 };
 
 const routes = (app) => {
+    app.use("/ecommerce/v1/auth", authRoutes),
+    app.use("/ecommerce/v1/user", userRoutes)
 };
 
 const connectDB = async () => {
