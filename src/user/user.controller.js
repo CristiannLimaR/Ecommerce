@@ -60,14 +60,14 @@ export const updateUser = async (req, res = response) => {
     const { id } = req.params;
     const { currentPassword, password, role, ...data } = req.body;
 
-    if (req.user.role !== "ADMIN" && req.user.id !== id) {
+    if (req.user.role !== "ADMIN_ROLE" && req.user.id !== id) {
       return res.status(403).json({
         success: false,
         msg: "You can only update your own account",
       });
     }
 
-    if (req.user.role !== "ADMIN" && role) {
+    if (req.user.role !== "ADMIN_ROLE" && role) {
       return res.status(403).json({
         success: false,
         msg: "You are not allowed to change your role",
@@ -93,7 +93,7 @@ export const updateUser = async (req, res = response) => {
         });
       }
 
-      
+      data.role = role
       data.password = await hash(password);
     }
 
@@ -118,7 +118,7 @@ export const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
 
-    if (req.user.role !== "ADMIN" && req.user.id !== id) {
+    if (req.user.role !== "ADMIN_ROLE" && req.user.id !== id) {
       return res.status(403).json({
         success: false,
         msg: "You can only delete your own account",

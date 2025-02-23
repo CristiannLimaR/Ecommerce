@@ -5,6 +5,7 @@ import helmet from "helmet";
 import { dbConection } from "./mongo.js";
 import authRoutes from "../src/auth/auth.routes.js"
 import userRoutes from "../src/user/user.routes.js"
+import categoryRoutes from "../src/category/category.routes.js"
 
 
 export const middlewares = (app) => {
@@ -17,7 +18,8 @@ export const middlewares = (app) => {
 
 const routes = (app) => {
     app.use("/ecommerce/v1/auth", authRoutes),
-    app.use("/ecommerce/v1/user", userRoutes)
+    app.use("/ecommerce/v1/users", userRoutes),
+    app.use("/ecommerce/v1/categories", categoryRoutes)
 };
 
 const connectDB = async () => {
