@@ -13,7 +13,7 @@ import { hasRole } from "../middlewares/validate-roles.js";
 
 const router = Router();
 
-router.get("/", [validateJWT, hasRole("ADMIN_ROLE")], getCategories);
+router.get("/", getCategories);
 
 router.get(
   "/:id",

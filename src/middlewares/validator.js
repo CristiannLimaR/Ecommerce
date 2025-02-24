@@ -18,3 +18,15 @@ export const loginValidator = [
     body('password', 'Password must be at least 8 characters').isLength({ min: 8 }),
     validateFields
 ]
+
+export const productValidator = [
+    body('name', 'The name is required').notEmpty(),
+    body('description', 'description is required').notEmpty(),
+    body('description', 'The max length is 50 characters').isLength({max: 200}),
+    body('price', 'The price is required').notEmpty(),
+    body('price', 'The price must be a positive value').toFloat().isFloat({min: 0}),
+    body('stock', 'The stock is required').notEmpty(),
+    body('stock', 'The stock must be a positive value').isInt({min: 0}),
+    body('sales', 'It is not allowed to add sales directly').not().exists(),
+    validateFields
+]
