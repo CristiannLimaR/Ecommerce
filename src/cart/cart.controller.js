@@ -110,7 +110,7 @@ export const updateCart = async (req, res) => {
     }
 
     const itemIndex = cart.items.findIndex(
-      (item) => item.id.toString() === req.params.id
+      (item) => item.id.toString() === req.params.productId
     );
 
     if (itemIndex === -1) {
@@ -173,7 +173,7 @@ export const deleteProductOfCart = async (req, res) => {
     }
 
     const itemIndex = cart.items.findIndex(
-      (item) => item.id.toString() === req.params.id
+      (item) => item.id.toString() === req.params.productId
     );
 
     if (itemIndex === -1) {
