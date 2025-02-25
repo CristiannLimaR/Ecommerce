@@ -7,7 +7,7 @@ import authRoutes from "../src/auth/auth.routes.js"
 import userRoutes from "../src/user/user.routes.js"
 import categoryRoutes from "../src/category/category.routes.js"
 import productRoutes from "../src/product/product.routes.js"
-import cartRoutes from "../src/product/product.routes.js"
+import cartRoutes from "../src/cart/cart.routes.js"
 
 
 export const middlewares = (app) => {
@@ -22,8 +22,9 @@ const routes = (app) => {
     app.use("/ecommerce/v1/auth", authRoutes),
     app.use("/ecommerce/v1/users", userRoutes),
     app.use("/ecommerce/v1/categories", categoryRoutes),
-    app.use("/ecommerce/v1/products", productRoutes),
-    app.use("/ecommerce/v1/cart", cartRoutes)
+    app.use("/ecommerce/v1/cart", cartRoutes),
+    app.use("/ecommerce/v1/products", productRoutes)
+    
 };
 
 const connectDB = async () => {

@@ -2,12 +2,12 @@ import { Router } from "express";
 import { check } from "express-validator";
 import { validateFields } from "../middlewares/validate-fields.js";
 import { validateJWT } from "../middlewares/validate-jwt.js";
-import { addToCart, clearCart, deleteProductOfCart, getCart, updateCart } from "./cart.controller";
+import { addToCart, clearCart, deleteProductOfCart, getCart, updateCart } from "./cart.controller.js";
 
 
 const router = Router();
 
-router.get("/", getCart);
+router.get("/", validateJWT, getCart);
 
 router.post(
   "/addToCart",
@@ -24,7 +24,7 @@ router.put(
     "/:productId",
     [
         validateJWT,
-        check('quantity').exists().idInt({ min: 1 }).withMessage('The quantity must be a positive integer'),
+        check('quantity').exists().isInt({ min: 1 }).withMessage('The quantity must be a positive integer'),
         validateFields,
     ],
     updateCart

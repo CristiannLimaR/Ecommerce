@@ -1,6 +1,5 @@
-import Cart from "./cart.model";
-import User from "../user/user.model";
-import Product from "../product/product.model";
+import Cart from "./cart.model.js";
+import Product from "../product/product.model.js";
 
 export const getCart = async (req, res) => {
   try {
@@ -18,7 +17,9 @@ export const getCart = async (req, res) => {
     }
 
     res.status(200).json({
-      cart,
+      msg: "Cart retrieved successfully",
+      items: cart.items,
+      total: cart.total,
     });
   } catch (error) {
     res.status(500).json({
@@ -33,7 +34,9 @@ export const addToCart = async (req, res) => {
   try {
     const authenticatedUser = req.user;
     const { productName, quantity } = req.body;
-    const product = await Product.findOne({ name: productName, $options: "i" });
+    const product = await Product.findOne({
+      name: { $regex: productName, $options: "i" },
+    });
 
     if (!product) {
       return res.status(404).json({ message: "Producto not found" });
@@ -49,35 +52,39 @@ export const addToCart = async (req, res) => {
         .json({ message: "Requested quantity exceeds stock" });
     }
 
-    let cart = await Cart.findOne({ user: authenticatedUser.id });
+    let cart = await Cart.findOne({ client: authenticatedUser.id });
 
     if (!cart) {
       cart = new Cart({
-        user: authenticatedUser.id,
-        items: [{ product: product.id, quantity }],
+        client: authenticatedUser.id,
+        items: [{ product: product.id, quantity: Number(quantity) }],
       });
     } else {
-      const existingItem = cart.items.find(
+      const existingItemIndex = cart.items.findIndex(
         (item) => item.product.toString() === product.id.toString()
       );
-      if (existingItem) {
-        if (existingItem.quantity + quantity > product.stock) {
+
+      if (existingItemIndex !== -1) {
+        const existingItem = cart.items[existingItemIndex];
+
+        if (existingItem.quantity + Number(quantity) > product.stock) {
           return res.status(400).json({
-            message: `Total quantity in cart exceeds product stock: ${product.name} `,
+            message: `Total quantity in cart exceeds product stock: ${product.name}`,
           });
         }
-        existingItem.quantity += quantity;
+
+        cart.items[existingItemIndex].quantity += Number(quantity);
       } else {
-        cart.items.push({ product: product.id, quantity });
+        cart.items.push({ product: product.id, quantity: Number(quantity) });
       }
     }
+    cart.markModified("items");
 
     let total = 0;
-    cart.items.map(async (item) => {
+    for (const item of cart.items) {
       const product = await Product.findById(item.product);
       total += product.price * item.quantity;
-    });
-
+    }
     cart.total = total;
 
     await cart.save();
@@ -99,7 +106,7 @@ export const updateCart = async (req, res) => {
   try {
     const authenticatedUser = req.user;
     const { quantity } = req.body;
-    const cart = await Cart.findOne({ user: authenticatedUser.id });
+    const cart = await Cart.findOne({ client: authenticatedUser.id });
 
     if (!cart || cart.items === 0) {
       return res.status(200).json({
@@ -219,21 +226,21 @@ export const clearCart = async (req, res) => {
       });
     }
 
-    cart.items = []; 
-    cart.total = 0; 
+    cart.items = [];
+    cart.total = 0;
 
     await cart.save();
 
     res.status(200).json({
-        success: true,
-        msg: "Cart Successfully cleared",
-        cart
-    })
+      success: true,
+      msg: "Cart Successfully cleared",
+      cart,
+    });
   } catch (error) {
     res.status(500).json({
-        success: false,
-        msg: "Clearing cart error",
-        error: error.message,
-      });
+      success: false,
+      msg: "Clearing cart error",
+      error: error.message,
+    });
   }
 };
