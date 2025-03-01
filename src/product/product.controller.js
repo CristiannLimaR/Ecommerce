@@ -41,7 +41,6 @@ export const getProducts = async (req, res) => {
       Product.find({ state: true })
         .skip(Number(offset))
         .limit(Number(limit))
-        .populate("category", "name"),
     ]);
 
     res.status(200).json({
@@ -91,7 +90,6 @@ export const getProductsOutOfStock = async (req, res) => {
       Product.find(query)
         .skip(Number(offset))
         .limit(Number(limit))
-        .populate("category", "name"),
     ]);
 
     if (total == 0) {
@@ -120,7 +118,6 @@ export const getBestSellingProducts = async (req, res) => {
     const products = await Product.find({ state: true })
       .sort({ sales: -1 })
       .limit(5)
-      .populate("category", "name");
 
     res.status(200).json({
       success: true,
@@ -146,7 +143,6 @@ export const getProductsByName = async (req, res) => {
       Product.find(query)
         .skip(Number(offset))
         .limit(Number(limit))
-        .populate("category", "name"),
     ]);
 
     if (total == 0) {
@@ -189,7 +185,6 @@ export const getProductsByCategory = async (req, res) => {
       Product.find({ category: category.id })
         .skip(Number(offset))
         .limit(Number(limit))
-        .populate("category", "name"),
     ]);
 
     if (total === 0) {
