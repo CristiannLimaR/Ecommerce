@@ -4,9 +4,9 @@ import Product from "../product/product.model.js";
 export const getCart = async (req, res) => {
   try {
     const authenticatedUser = req.user;
-    const cart = await Cart.findOne({ client: authenticatedUser.id })
+    const cart = await Cart.findOne({ client: authenticatedUser.id });
 
-    if (!cart || cart.items === 0) {
+    if (!cart || cart.items.length === 0) {
       return res.status(200).json({
         msg: "You have not added products to the cart",
         items: [],
@@ -104,14 +104,14 @@ export const addToCart = async (req, res) => {
 export const updateCart = async (req, res) => {
   try {
     const authenticatedUser = req.user;
-    const { items } = req.body
+    const { items } = req.body;
 
     const cart = await Cart.findOne({ client: authenticatedUser.id });
 
     if (!cart) {
       cart = new Cart({
         client: authenticatedUser.id,
-        items: items
+        items: items,
       });
     }
 
@@ -121,7 +121,9 @@ export const updateCart = async (req, res) => {
     for (const item of items) {
       const product = await Product.findById(item.product._id);
       if (!product) {
-        return res.status(404).json({ msg: `Product not found: ${item.product.name}` });
+        return res
+          .status(404)
+          .json({ msg: `Product not found: ${item.product.name}` });
       }
 
       if (item.quantity > product.stock) {
@@ -138,7 +140,6 @@ export const updateCart = async (req, res) => {
       total += product.price * item.quantity;
     }
 
-    
     cart.items = updatedItems;
     cart.total = total;
     await cart.save();
@@ -160,10 +161,10 @@ export const updateCart = async (req, res) => {
 export const deleteProductOfCart = async (req, res) => {
   try {
     const authenticatedUser = req.user;
-    const {productId} = req.params;
+    const { productId } = req.params;
     const cart = await Cart.findOne({ client: authenticatedUser.id });
 
-    if (!cart || cart.items === 0) {
+    if (!cart || cart.items.length === 0) {
       return res.status(200).json({
         msg: "You have not added products to the cart",
         items: [],
@@ -209,7 +210,7 @@ export const clearCart = async (req, res) => {
     const authenticatedUser = req.user;
     const cart = await Cart.findOne({ client: authenticatedUser.id });
 
-    if (!cart || cart.items === 0) {
+    if (!cart || cart.items.length === 0) {
       return res.status(200).json({
         msg: "You have not added products to the cart",
         items: [],
@@ -228,7 +229,7 @@ export const clearCart = async (req, res) => {
       cart,
     });
   } catch (error) {
-    res.status(500).json({
+     return res.status(500).json({
       success: false,
       msg: "Clearing cart error",
       error: error.message,

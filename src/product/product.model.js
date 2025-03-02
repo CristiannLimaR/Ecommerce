@@ -25,7 +25,7 @@ const ProductSchema = Schema(
     category: {
       type: Schema.Types.ObjectId,
       ref: "Category",
-      autopopulate: {select: 'name'}
+      autopopulate: {select: 'name -_id'}
     },
     sales: {
       type: Number,
