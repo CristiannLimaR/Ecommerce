@@ -6,7 +6,7 @@ const CartSchema = Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
     required: true,
-    autopopulate: true
+    autopopulate: {select: 'name surname email'}
   },
   items: [
     {
@@ -14,7 +14,7 @@ const CartSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: "Product",
         required: true,
-        autopopulate: true
+        autopopulate: {select: 'name price stock'}
       },
       quantity: {
         type: Number,

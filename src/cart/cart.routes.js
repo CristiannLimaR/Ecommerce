@@ -43,6 +43,6 @@ router.put(
 
 router.delete("/:productId", [validateJWT], deleteProductOfCart);
 
-router.get("/clearCart", validateJWT, clearCart);
+router.post("/clearCart", validateJWT, clearCart);
 
 export default router;

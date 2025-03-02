@@ -1,4 +1,5 @@
 import Category from "./category.model.js";
+import Product from "../product/product.model.js";
 
 export const getCategories = async (req, res) => {
   try {
@@ -101,6 +102,22 @@ export const deleteCategory = async (req, res) => {
         new: true,
       }
     );
+
+    let generalCategory = await Category.findOne({ name: "General" });
+
+    if (!generalCategory) {
+      generalCategory = new Category({ name: "General" });
+      await generalCategory.save();
+    }
+
+    const products = await Product.countDocuments({ category: category.id });
+
+    if (products > 0) {
+      await Product.updateMany(
+        { category: category.id },
+        { $set: { category: generalCategory.id } }
+      );
+    }
     res.status(200).json({
       success: true,
       msg: "category successfully removed",

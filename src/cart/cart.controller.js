@@ -104,11 +104,7 @@ export const addToCart = async (req, res) => {
 export const updateCart = async (req, res) => {
   try {
     const authenticatedUser = req.user;
-    const { items } = req.body;
-
-    if (!items || !Array.isArray(items)) {
-      return res.status(400).json({ msg: "Items must be an array" });
-    }
+    const { items } = req.body
 
     const cart = await Cart.findOne({ client: authenticatedUser.id });
 
@@ -164,7 +160,8 @@ export const updateCart = async (req, res) => {
 export const deleteProductOfCart = async (req, res) => {
   try {
     const authenticatedUser = req.user;
-    const cart = await Cart.findOne({ user: authenticatedUser.id });
+    const {productId} = req.params;
+    const cart = await Cart.findOne({ client: authenticatedUser.id });
 
     if (!cart || cart.items === 0) {
       return res.status(200).json({
@@ -175,7 +172,7 @@ export const deleteProductOfCart = async (req, res) => {
     }
 
     const itemIndex = cart.items.findIndex(
-      (item) => item.id.toString() === req.params.productId
+      (item) => item.product.id.toString() === productId.toString()
     );
 
     if (itemIndex === -1) {
@@ -185,11 +182,10 @@ export const deleteProductOfCart = async (req, res) => {
     cart.items.splice(itemIndex, 1);
 
     let total = 0;
-    cart.items.map(async (item) => {
+    for (const item of cart.items) {
       const product = await Product.findById(item.product);
       total += product.price * item.quantity;
-    });
-
+    }
     cart.total = total;
 
     await cart.save();
@@ -211,7 +207,7 @@ export const deleteProductOfCart = async (req, res) => {
 export const clearCart = async (req, res) => {
   try {
     const authenticatedUser = req.user;
-    const cart = await Cart.findOne({ user: authenticatedUser.id });
+    const cart = await Cart.findOne({ client: authenticatedUser.id });
 
     if (!cart || cart.items === 0) {
       return res.status(200).json({
