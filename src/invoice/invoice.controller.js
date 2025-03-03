@@ -2,7 +2,6 @@ import Invoice from "./invoice.model.js";
 import Product from "../product/product.model.js";
 import Cart from "../cart/cart.model.js";
 
-
 export const completePurchase = async (req, res) => {
   try {
     const authenticatedUser = req.user;
@@ -26,7 +25,7 @@ export const completePurchase = async (req, res) => {
 
     for (const item of cart.items) {
       await Product.findByIdAndUpdate(item.product._id, {
-        $inc: { stock: -item.quantity, sales: item.quantity},
+        $inc: { stock: -item.quantity, sales: +item.quantity },
       });
     }
 
@@ -42,8 +41,7 @@ export const completePurchase = async (req, res) => {
 
     await invoice.save();
 
-    await Cart.findOneAndUpdate({client: cart.client}, { items: [] });
-
+    await Cart.findOneAndUpdate({ client: cart.client }, { items: [] });
 
     res.status(200).json({
       success: true,
@@ -59,27 +57,56 @@ export const completePurchase = async (req, res) => {
   }
 };
 
-export const getPurchases  = async (req, res) => {
+export const getPurchases = async (req, res) => {
   try {
     const authenticatedUser = req.user;
 
     const [total, purchases] = await Promise.all([
-      Invoice.countDocuments({client: authenticatedUser.id}),
-      Invoice.find({client: authenticatedUser.id})
-    ])
+      Invoice.countDocuments({ client: authenticatedUser.id }),
+      Invoice.find({ client: authenticatedUser.id }),
+    ]);
 
-    if(total === 0){
+    if (total === 0) {
       return res.status(200).json({
         success: true,
-        msg: 'You have not made any purchases'
-      })
+        msg: "You have not made any purchases",
+      });
     }
 
     res.status(200).json({
       success: true,
       total,
-      purchases
-    })
+      purchases,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      msg: "Error getting purchases",
+      error: error.message,
+    });
+  }
+};
+
+export const getProductsByClient = async() => {
+  try {
+    const {id} = req.params;
+    const [total, purchases] = await Promise.all([
+      Invoice.countDocuments({ client: id }),
+      Invoice.find({ client: id }),
+    ]);
+
+    if (total === 0) {
+      return res.status(200).json({
+        success: true,
+        msg: "The customer has not made any purchases",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      total,
+      purchases,
+    });
   } catch (error) {
     return res.status(500).json({
       success: false,
@@ -89,3 +116,67 @@ export const getPurchases  = async (req, res) => {
   }
 }
 
+export const updateInvoices = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { items } = req.body;
+
+    const invoice = Invoice.findById(id);
+
+    if (!invoice) {
+      return res.status(404).json({
+        success: false,
+        msg: "Invoice not found",
+      });
+    }
+
+    let total = 0
+    let updatedItems = [];
+
+    for (const item of items) {
+      const product = await Product.findById(item.product.id);
+      if (!product) {
+        return res.status(404).json({ msg: `Product not found` });
+      }
+    
+      console.log(`Stock para ${product.name}: ${product.stock}`);
+      console.log(`Cantidad solicitada: ${item.quantity}`);
+    
+      if (item.quantity > product.stock) {
+        return res.status(400).json({
+          msg: `Requested quantity exceeds stock for: ${product.name}`,
+        });
+      }
+    
+      updatedItems.push({
+        product: product._id,
+        price: product.price,
+        quantity: item.quantity,
+      });
+    
+      total += product.price * item.quantity;
+    
+      await Product.findByIdAndUpdate(product.id, {
+        $inc: { stock: -item.quantity, sales: +item.quantity },
+      });
+    }
+    
+
+    invoice.items = updatedItems;
+    invoice.totalAmount = total;
+    await invoice.save();
+
+    res.status(200).json({
+      success: true,
+      msg: "Invoice successfully updated",
+      invoice,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      msg: "Error updating invoice",
+      error: error.message,
+      errorStack: error.stack
+    });
+  }
+};

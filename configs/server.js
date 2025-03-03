@@ -25,7 +25,7 @@ const routes = (app) => {
     app.use("/ecommerce/v1/categories", categoryRoutes),
     app.use("/ecommerce/v1/cart", cartRoutes),
     app.use("/ecommerce/v1/products", productRoutes)
-    app.use("/ecommerce/v1/invoice", invoiceRoutes)  
+    app.use("/ecommerce/v1/invoices", invoiceRoutes)  
 };
 
 const connectDB = async () => {

@@ -13,7 +13,7 @@ const InvoiceSchema = Schema({
             type: Schema.Types.ObjectId,
             ref: 'Product',
             required: true,
-            autopopulate: {select: 'name -_id'}
+            autopopulate: {select: 'name '}
         },
         quantity: {
             type: Number,
@@ -23,8 +23,7 @@ const InvoiceSchema = Schema({
         price: {
             type: Number,
             required: true
-        },
-        
+        }
     }],
     totalAmount: {
         type: Number,
