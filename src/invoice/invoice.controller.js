@@ -121,8 +121,9 @@ export const updateInvoices = async (req, res) => {
     const { id } = req.params;
     const { items } = req.body;
 
-    const invoice = Invoice.findById(id);
-
+    const invoice = await Invoice.findById(id);
+    console.log(invoice);
+    
     if (!invoice) {
       return res.status(404).json({
         success: false,
@@ -176,7 +177,6 @@ export const updateInvoices = async (req, res) => {
       success: false,
       msg: "Error updating invoice",
       error: error.message,
-      errorStack: error.stack
     });
   }
 };
