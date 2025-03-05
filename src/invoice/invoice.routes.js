@@ -12,22 +12,24 @@ router.post("/checkout", validateJWT, completePurchase);
 router.get("/history", validateJWT, getPurchases);
 
 router.get(
-    "/:id",
+    "/:clientId",
    [
     validateJWT,
     hasRole("ADMIN_ROLE"),
+    check('clientId').isMongoId(),
     validateFields
    ],
    getProductsByClient
 )
 
 router.put(
-    "/:id",
+    "/:invoiceId",
     [
         validateJWT,
         hasRole("ADMIN_ROLE"),
         check('totalAmound').not().exists().withMessage('It is not allowed change total directly'),
-        check('client').not().exists().withMessage('Changing the invoice client is not allowed.')
+        check('client').not().exists().withMessage('Changing the invoice client is not allowed.'),
+        check('invoiceId').isMongoId()
     ],
     updateInvoices
 );

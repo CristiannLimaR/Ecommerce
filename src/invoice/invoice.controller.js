@@ -86,10 +86,10 @@ export const getPurchases = async (req, res) => {
 
 export const getProductsByClient = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { clientId } = req.params;
     const [total, purchases] = await Promise.all([
-      Invoice.countDocuments({ client: id }),
-      Invoice.find({ client: id }),
+      Invoice.countDocuments({ client: clientId }),
+      Invoice.find({ client: clientId }),
     ]);
 
     if (total === 0) {
@@ -115,10 +115,10 @@ export const getProductsByClient = async (req, res) => {
 
 export const updateInvoices = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { invoiceId } = req.params;
     const { items } = req.body;
 
-    const invoice = await Invoice.findById(id);
+    const invoice = await Invoice.findById(invoiceId);
 
     if (!invoice) {
       return res.status(404).json({
