@@ -21,9 +21,6 @@ export const completePurchase = async (req, res) => {
           msg: `Not enough stock for ${item.product.name}`,
         });
       }
-    }
-
-    for (const item of cart.items) {
       await Product.findByIdAndUpdate(item.product._id, {
         $inc: { stock: -item.quantity, sales: +item.quantity },
       });
@@ -87,9 +84,9 @@ export const getPurchases = async (req, res) => {
   }
 };
 
-export const getProductsByClient = async() => {
+export const getProductsByClient = async (req, res) => {
   try {
-    const {id} = req.params;
+    const { id } = req.params;
     const [total, purchases] = await Promise.all([
       Invoice.countDocuments({ client: id }),
       Invoice.find({ client: id }),
@@ -114,7 +111,7 @@ export const getProductsByClient = async() => {
       error: error.message,
     });
   }
-}
+};
 
 export const updateInvoices = async (req, res) => {
   try {
@@ -122,8 +119,7 @@ export const updateInvoices = async (req, res) => {
     const { items } = req.body;
 
     const invoice = await Invoice.findById(id);
-    console.log(invoice);
-    
+
     if (!invoice) {
       return res.status(404).json({
         success: false,
@@ -131,7 +127,7 @@ export const updateInvoices = async (req, res) => {
       });
     }
 
-    let total = 0
+    let total = 0;
     let updatedItems = [];
 
     for (const item of items) {
@@ -139,29 +135,25 @@ export const updateInvoices = async (req, res) => {
       if (!product) {
         return res.status(404).json({ msg: `Product not found` });
       }
-    
-      console.log(`Stock para ${product.name}: ${product.stock}`);
-      console.log(`Cantidad solicitada: ${item.quantity}`);
-    
+
       if (item.quantity > product.stock) {
         return res.status(400).json({
           msg: `Requested quantity exceeds stock for: ${product.name}`,
         });
       }
-    
+
       updatedItems.push({
         product: product._id,
         price: product.price,
         quantity: item.quantity,
       });
-    
+
       total += product.price * item.quantity;
-    
+
       await Product.findByIdAndUpdate(product.id, {
         $inc: { stock: -item.quantity, sales: +item.quantity },
       });
     }
-    
 
     invoice.items = updatedItems;
     invoice.totalAmount = total;
