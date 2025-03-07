@@ -6,6 +6,8 @@ const CategorySchema = Schema(
       type: String,
       required: [true, "The name is required"],
       maxLength: [25, "Cant be overcome 25 characters"],
+      trim: true,
+      set: (value) => value.toUpperCase()
     },
     state: {
       type: Boolean,

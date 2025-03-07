@@ -2,18 +2,19 @@ import { Router } from "express";
 import { check } from "express-validator";
 import { getUsers, updateUser, getUserById, deleteUser} from "./user.controller.js";
 import { validateFields } from "../middlewares/validate-fields.js";
-import { existsUserById, isRoleValid } from "../helpers/db-validator.js";
+import { existsUserById} from "../helpers/db-validator.js";
 import { validateJWT } from "../middlewares/validate-jwt.js";
+import { updateUserValidator } from "../middlewares/validator.js";
 
 const router = Router();
 
 router.get("/", getUsers);
 
 router.get(
-  "/findUser/:id",
+  "/:userId",
   [
-    check("id", "No es un ID valido").isMongoId(),
-    check("id").custom(existsUserById),
+    check("userId", "No es un ID valido").isMongoId(),
+    check("userId").custom(existsUserById),
     validateFields,
   ],
   getUserById
@@ -21,12 +22,11 @@ router.get(
 
 
 router.put(
-  "/:id",
+  "/:userId",
   [
     validateJWT,
-    check("id", "No es un ID valido").isMongoId(),
-    check("id").custom(existsUserById),
-    check("role").custom(isRoleValid),
+    check("userId", "No es un ID valido").isMongoId(),
+    updateUserValidator,
     validateFields,
   ],
   updateUser
@@ -34,11 +34,12 @@ router.put(
 
 
 router.delete(
-  "/:id",
+  "/:userId",
   [
     validateJWT,
-    check("id", "No es un ID valido").isMongoId(),
-    check("id").custom(existsUserById),
+    check("userId", "No es un ID valido").isMongoId(),
+    check("userId").custom(existsUserById),
+    check("password").exists().withMessage('Password is required to confirm deletion'),
     validateFields
   ],
   deleteUser

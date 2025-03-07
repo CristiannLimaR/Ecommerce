@@ -12,14 +12,14 @@ export const isRoleValid = async (role = '') => {
 };
 
 
-export const existsEmail = async (email = '') => {
-    const existEmail = await User.findOne({ email })
+export const existsEmail = async (email = "", { req }) => {
+    const userId = req.params.userId; 
+    const existEmail = await User.findOne({ email });
 
-    if (existEmail) {
-        throw new Error(`Email ${email} already exists in the database`);
-
+    if (existEmail && existEmail.id !== userId) {
+        throw new Error(`Email ${email} is already used by another user`);
     }
-}
+};
 
 export const existsUserById = async (id = ``) => {
     const existsUser = await User.findById(id);
@@ -28,3 +28,12 @@ export const existsUserById = async (id = ``) => {
 
     }
 }
+
+export const existUsername = async (username = "", { req }) => {
+    const userId = req.params.userId; 
+    const existUsername = await User.findOne({ username });
+
+    if (existUsername && existUsername.id !== userId) {
+        throw new Error(`Username ${username} is already used by another user`);
+    }
+};

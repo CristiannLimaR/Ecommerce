@@ -6,7 +6,7 @@ export const completePurchase = async (req, res) => {
   try {
     const authenticatedUser = req.user;
 
-    const cart = await Cart.findOne({ client: authenticatedUser.id });
+    const cart = await Cart.findOne({ client: authenticatedUser._id });
     if (!cart || cart.items.length === 0) {
       return res.status(400).json({
         success: false,
@@ -32,8 +32,9 @@ export const completePurchase = async (req, res) => {
         product: item.product.id,
         quantity: item.quantity,
         price: item.product.price,
+        total: item.total,
       })),
-      totalAmount: cart.total,
+      totalAmount: cart.totalAmount,
     });
 
     await invoice.save();
@@ -84,7 +85,7 @@ export const getPurchases = async (req, res) => {
   }
 };
 
-export const getProductsByClient = async (req, res) => {
+export const getInvoicesByClient = async (req, res) => {
   try {
     const { clientId } = req.params;
     const [total, purchases] = await Promise.all([
@@ -127,17 +128,29 @@ export const updateInvoices = async (req, res) => {
       });
     }
 
-    let total = 0;
+    let totalAmount = 0;
     let updatedItems = [];
 
     for (const item of items) {
-      const product = await Product.findById(item.product.id);
+      const product = await Product.findById(item.product);
+
       if (!product) {
-        return res.status(404).json({ msg: `Product not found` });
+        return res.status(404).json({
+          success: false,
+          msg: `Product not found`,
+        });
+      }
+
+      if (!product.state) {
+        return res.status(404).json({
+          success: false,
+          msg: "Product inactive",
+        });
       }
 
       if (item.quantity > product.stock) {
         return res.status(400).json({
+          success: false,
           msg: `Requested quantity exceeds stock for: ${product.name}`,
         });
       }
@@ -146,9 +159,10 @@ export const updateInvoices = async (req, res) => {
         product: product._id,
         price: product.price,
         quantity: item.quantity,
+        total: product.price * item.quantity
       });
 
-      total += product.price * item.quantity;
+      totalAmount += product.price * item.quantity;
 
       await Product.findByIdAndUpdate(product.id, {
         $inc: { stock: -item.quantity, sales: +item.quantity },
@@ -156,7 +170,7 @@ export const updateInvoices = async (req, res) => {
     }
 
     invoice.items = updatedItems;
-    invoice.totalAmount = total;
+    invoice.totalAmount = totalAmount;
     await invoice.save();
 
     res.status(200).json({

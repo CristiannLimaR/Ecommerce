@@ -1,10 +1,11 @@
 import Product from "./product.model.js";
 import Category from "../category/category.model.js";
+import Cart from "../cart/cart.model.js";
 
 export const saveProduct = async (req, res) => {
   try {
     const data = req.body;
-    const category = await Category.findOne({ name: data.category });
+    const category = await Category.findOne({ name: data.category.toUpperCase() });
 
     if (!category) {
       return res.status(404).json({
@@ -22,13 +23,13 @@ export const saveProduct = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      product
+      product,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
       msg: "Error saving Publication",
-      error: error.message
+      error: error.message,
     });
   }
 };
@@ -37,10 +38,10 @@ export const getProducts = async (req, res) => {
   try {
     const { limit = 10, offset = 0 } = req.query;
     const [total, products] = await Promise.all([
-      Product.countDocuments({ state: true }),
-      Product.find({ state: true })
+      Product.countDocuments({ state: true, stock: { $gt: 0 } }),
+      Product.find({ state: true, stock: { $gt: 0 } })
         .skip(Number(offset))
-        .limit(Number(limit))
+        .limit(Number(limit)),
     ]);
 
     res.status(200).json({
@@ -58,8 +59,8 @@ export const getProducts = async (req, res) => {
 
 export const getProductById = async (req, res) => {
   try {
-    const { id } = req.params;
-    const product = await Product.findById(id);
+    const { productId } = req.params;
+    const product = await Product.findById(productId);
 
     if (!product) {
       return res.status(404).json({
@@ -87,9 +88,7 @@ export const getProductsOutOfStock = async (req, res) => {
     const query = { state: true, stock: 0 };
     const [total, products] = await Promise.all([
       Product.countDocuments(query),
-      Product.find(query)
-        .skip(Number(offset))
-        .limit(Number(limit))
+      Product.find(query).skip(Number(offset)).limit(Number(limit)),
     ]);
 
     if (total == 0) {
@@ -105,7 +104,7 @@ export const getProductsOutOfStock = async (req, res) => {
       products,
     });
   } catch (error) {
-   return res.status(500).json({
+    return res.status(500).json({
       success: false,
       msg: "Error getting products",
       error: error.message,
@@ -117,7 +116,7 @@ export const getBestSellingProducts = async (req, res) => {
   try {
     const products = await Product.find({ state: true })
       .sort({ sales: -1 })
-      .limit(5)
+      .limit(5);
 
     res.status(200).json({
       success: true,
@@ -140,9 +139,7 @@ export const getProductsByName = async (req, res) => {
 
     const [total, products] = await Promise.all([
       Product.countDocuments(query),
-      Product.find(query)
-        .skip(Number(offset))
-        .limit(Number(limit))
+      Product.find(query).skip(Number(offset)).limit(Number(limit)),
     ]);
 
     if (total == 0) {
@@ -184,7 +181,7 @@ export const getProductsByCategory = async (req, res) => {
       Product.countDocuments({ category: category.id }),
       Product.find({ category: category.id })
         .skip(Number(offset))
-        .limit(Number(limit))
+        .limit(Number(limit)),
     ]);
 
     if (total === 0) {
@@ -210,10 +207,10 @@ export const getProductsByCategory = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { category,  ...data } = req.body;
+    const { productId } = req.params;
+    const { category, ...data } = req.body;
 
-    const newCategory = await Category.findOne({ name: category });
+    const newCategory = await Category.findOne({ name: category.toUpperCase() });
 
     if (!newCategory) {
       return res.status(404).json({
@@ -222,9 +219,16 @@ export const updateProduct = async (req, res) => {
       });
     }
 
+    if (!newCategory.state) {
+      return res.status(404).json({
+        success: false,
+        msg: "Category inactive",
+      });
+    }
+
     data.category = newCategory;
 
-    const product = await Product.findByIdAndUpdate(id, data, { new: true });
+    const product = await Product.findByIdAndUpdate(productId, data, { new: true });
 
     res.status(200).json({
       success: true,
@@ -242,13 +246,38 @@ export const updateProduct = async (req, res) => {
 
 export const deleteProduct = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { productId } = req.params;
 
     const product = await Product.findByIdAndUpdate(
       id,
       { state: false },
       { new: true }
     );
+
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        msg: "Product not found",
+      });
+    }
+
+    await Cart.updateMany(
+      { "items.product": productId },
+      { $pull: { items: { product: productId } } }
+    );
+
+    const carts = await Cart.find({ "items.product": productId });
+
+    for (const cart of carts) {
+      let total = 0;
+      for (const item of cart.items) {
+        const product = await Product.findById(item.product);
+        total += product.price * item.quantity;
+      }
+      cart.total = total;
+
+      await cart.save();
+    }
 
     res.status(200).json({
       success: true,

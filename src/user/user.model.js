@@ -10,6 +10,8 @@ const UserSchema = Schema({
     type: String,
     required: [true, "The email is obligatory"],
     unique: true,
+    lowercase: true,
+    trim: true
   },
   surname: {
     type: String,

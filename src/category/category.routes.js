@@ -16,11 +16,11 @@ const router = Router();
 router.get("/", getCategories);
 
 router.get(
-  "/:id",
+  "/:categoryId",
   [
     validateJWT,
     hasRole("ADMIN_ROLE"),
-    check("id", "No es un id valido").isMongoId(),
+    check("categoryId", "It is not a valid id").isMongoId(),
     validateFields,
   ],
   getCategoryById
@@ -38,23 +38,23 @@ router.post(
 );
 
 router.put(
-  "/:id",
+  "/:categoryId",
   [
     validateJWT,
     hasRole("ADMIN_ROLE"),
     check("name").notEmpty().withMessage("The name is required"),
-    check("id", "No es un id valido").isMongoId(),
+    check("categoryId", "It is not a valid id").isMongoId(),
     validateFields,
   ],
   updateCategory
 );
 
 router.delete(
-  "/:id",
+  "/:categoryId",
   [
     validateJWT,
     hasRole("ADMIN_ROLE"),
-    check("id", "No es un id valido").isMongoId(),
+    check("categoryId", "It is not a valid id").isMongoId(),
     validateFields,
   ],
   deleteCategory

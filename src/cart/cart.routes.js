@@ -9,6 +9,7 @@ import {
   getCart,
   updateCart,
 } from "./cart.controller.js";
+import { itemValidator } from "../middlewares/validator.js";
 
 const router = Router();
 
@@ -22,26 +23,19 @@ router.post(
       .exists()
       .isInt({ min: 1 })
       .withMessage("The quantity must be a positive integer"),
+    check("productId", "It is not a valid id").isMongoId(),
     validateFields,
   ],
   addToCart
 );
 
-router.put(
-  "/",
-  [
-    validateJWT,
-    check("items").isArray().withMessage("Items must be an array"),
-    check("items.*.quantity")
-      .isInt({ min: 1 })
-      .withMessage("Quantity must be a positive integer")
-      .optional({ checkFalsy: true }),
-    validateFields,
-  ],
-  updateCart
-);
+router.put("/", [validateJWT, itemValidator, validateFields], updateCart);
 
-router.delete("/:productId", [validateJWT], deleteProductOfCart);
+router.delete(
+  "/:productId",
+  [validateJWT, check("productId", "It is not a valid id").isMongoId()],
+  deleteProductOfCart
+);
 
 router.post("/clearCart", validateJWT, clearCart);
 

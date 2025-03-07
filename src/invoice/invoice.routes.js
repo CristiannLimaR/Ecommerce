@@ -1,9 +1,15 @@
 import { Router } from "express";
 import { validateJWT } from "../middlewares/validate-jwt.js";
 import { hasRole } from "../middlewares/validate-roles.js";
-import { completePurchase, getProductsByClient, getPurchases, updateInvoices } from "./invoice.controller.js";
+import {
+  completePurchase,
+  getInvoicesByClient,
+  getPurchases,
+  updateInvoices,
+} from "./invoice.controller.js";
 import { validateFields } from "../middlewares/validate-fields.js";
 import { check } from "express-validator";
+import { invoiceValidator } from "../middlewares/validator.js";
 
 const router = Router();
 
@@ -12,26 +18,20 @@ router.post("/checkout", validateJWT, completePurchase);
 router.get("/history", validateJWT, getPurchases);
 
 router.get(
-    "/:clientId",
-   [
+  "/:clientId",
+  [
     validateJWT,
     hasRole("ADMIN_ROLE"),
-    check('clientId').isMongoId(),
-    validateFields
-   ],
-   getProductsByClient
-)
+    check("clientId", "It is not a valid id").isMongoId(),
+    validateFields,
+  ],
+  getInvoicesByClient
+);
 
 router.put(
-    "/:invoiceId",
-    [
-        validateJWT,
-        hasRole("ADMIN_ROLE"),
-        check('totalAmound').not().exists().withMessage('It is not allowed change total directly'),
-        check('client').not().exists().withMessage('Changing the invoice client is not allowed.'),
-        check('invoiceId').isMongoId()
-    ],
-    updateInvoices
+  "/:invoiceId",
+  [validateJWT, hasRole("ADMIN_ROLE"), invoiceValidator],
+  updateInvoices
 );
 
 export default router;

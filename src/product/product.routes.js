@@ -48,8 +48,8 @@ router.get(
   getProductsByCategory
 );
 router.get(
-  "/:id",
-  [check("id", "It is not a valid id").isMongoId(), validateFields],
+  "/:productId",
+  [check("productId", "It is not a valid id").isMongoId(), validateFields],
   getProductById
 );
 
@@ -60,11 +60,11 @@ router.post(
 );
 
 router.put(
-  "/:id",
+  "/:productId",
   [
     validateJWT,
     hasRole("ADMIN_ROLE"),
-    check("id", "It is not a valid id").isMongoId(),
+    check("productId", "It is not a valid id").isMongoId(),
     productValidator,
     validateFields,
   ],
@@ -72,11 +72,11 @@ router.put(
 );
 
 router.delete(
-  "/:id",
+  "/:productId",
   [
     validateJWT,
     hasRole("ADMIN_ROLE"),
-    check("id", "It is not a valid id").isMongoId(),
+    check("productId", "It is not a valid id").isMongoId(),
     validateFields,
   ],
   deleteProduct
