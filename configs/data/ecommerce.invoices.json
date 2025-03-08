@@ -1,0 +1,161 @@
+[{
+  "_id": {
+    "$oid": "67caa81cbc7372278d99509f"
+  },
+  "client": {
+    "$oid": "67b38efe316551aa0ddb51de"
+  },
+  "items": [
+    {
+      "product": {
+        "$oid": "67bbd49452feb562d01ae90c"
+      },
+      "quantity": 3,
+      "price": 5000,
+      "total": 15000,
+      "_id": {
+        "$oid": "67cab0544859f3c3dec77d93"
+      }
+    },
+    {
+      "product": {
+        "$oid": "67caa77d29860b5c6eedb3a0"
+      },
+      "quantity": 2,
+      "price": 799.99,
+      "total": 1599.98,
+      "_id": {
+        "$oid": "67cab0544859f3c3dec77d94"
+      }
+    }
+  ],
+  "totalAmount": 16599.98,
+  "state": true,
+  "date": {
+    "$date": "2025-03-07T08:02:36.818Z"
+  },
+  "createdAt": {
+    "$date": "2025-03-07T08:02:36.823Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-07T08:37:40.633Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67cb06ac33dd4dacc28df569"
+  },
+  "client": {
+    "$oid": "67caf95db149d8257e7400de"
+  },
+  "items": [
+    {
+      "product": {
+        "$oid": "67cb00d78c577a74adf2d800"
+      },
+      "quantity": 10,
+      "price": 799.99,
+      "total": 7999.9,
+      "_id": {
+        "$oid": "67cb0d7c442b1082a6eeee18"
+      }
+    },
+    {
+      "product": {
+        "$oid": "67caa77d29860b5c6eedb3a0"
+      },
+      "quantity": 10,
+      "price": 799.99,
+      "total": 7999.9,
+      "_id": {
+        "$oid": "67cb0d7c442b1082a6eeee19"
+      }
+    },
+    {
+      "product": {
+        "$oid": "67bbd3dc52feb562d01ae905"
+      },
+      "quantity": 2,
+      "price": 13499.99,
+      "total": 26999.98,
+      "_id": {
+        "$oid": "67cb0d7c442b1082a6eeee1a"
+      }
+    }
+  ],
+  "totalAmount": 42999.78,
+  "state": true,
+  "date": {
+    "$date": "2025-03-07T14:46:04.037Z"
+  },
+  "createdAt": {
+    "$date": "2025-03-07T14:46:04.041Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-07T15:15:08.678Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67cbb793f51ee05834624e52"
+  },
+  "client": {
+    "$oid": "67cba80746eb19ce2d028ec8"
+  },
+  "items": [
+    {
+      "product": {
+        "$oid": "67cbab9e0f736767cbb71738"
+      },
+      "quantity": 2,
+      "price": 11995.99,
+      "total": 23991.98,
+      "_id": {
+        "$oid": "67cbb793f51ee05834624e53"
+      }
+    }
+  ],
+  "totalAmount": 23991.98,
+  "state": true,
+  "date": {
+    "$date": "2025-03-08T03:20:51.142Z"
+  },
+  "createdAt": {
+    "$date": "2025-03-08T03:20:51.146Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-08T03:20:51.146Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67cbb818f51ee05834624e8a"
+  },
+  "client": {
+    "$oid": "67cba80746eb19ce2d028ec8"
+  },
+  "items": [
+    {
+      "product": {
+        "$oid": "67cbab9e0f736767cbb71738"
+      },
+      "quantity": 5,
+      "price": 11995.99,
+      "total": 59979.95,
+      "_id": {
+        "$oid": "67cbbafef51ee05834624eb6"
+      }
+    }
+  ],
+  "totalAmount": 59979.95,
+  "state": true,
+  "date": {
+    "$date": "2025-03-08T03:23:04.948Z"
+  },
+  "createdAt": {
+    "$date": "2025-03-08T03:23:04.948Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-08T03:35:26.164Z"
+  }
+}]

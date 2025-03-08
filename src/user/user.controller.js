@@ -89,8 +89,11 @@ export const updateUser = async (req, res = response) => {
         });
       }
 
-      data.role = role;
       data.password = await hash(password);
+    }
+
+    if (role) {
+      data.role = role;
     }
 
     const updatedUser = await User.findByIdAndUpdate(userId, data, { new: true });

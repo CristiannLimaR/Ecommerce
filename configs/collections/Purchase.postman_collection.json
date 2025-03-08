@@ -1,0 +1,125 @@
+{
+	"info": {
+		"_postman_id": "f28ea8fa-707b-4a92-b32a-ceca46b01a65",
+		"name": "Purchase",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42149033"
+	},
+	"item": [
+		{
+			"name": "completePurchase",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-token",
+						"value": "{{jwtToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/ecommerce/v1/invoices/checkout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"ecommerce",
+						"v1",
+						"invoices",
+						"checkout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getPurchaseHistory",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-token",
+						"value": "{{jwtToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/ecommerce/v1/invoices/history",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"ecommerce",
+						"v1",
+						"invoices",
+						"history"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateInvoice",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-token",
+						"value": "{{jwtToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"items\": [\r\n        {\r\n            \"product\": {\r\n                \"id\": \"67c627f6b84e59a75cbd8535\"\r\n            },\r\n            \"quantity\": 4\r\n        },\r\n        {\r\n            \"product\": {\r\n                \"id\":\"67c6292eb84e59a75cbd8558\"\r\n            },\r\n            \"quantity\": 2\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/ecommerce/v1/invoices/67c62be3b84e59a75cbd85fe",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"ecommerce",
+						"v1",
+						"invoices",
+						"67c62be3b84e59a75cbd85fe"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getInvoiceByClient",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/ecommerce/v1/invoices/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"ecommerce",
+						"v1",
+						"invoices",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
