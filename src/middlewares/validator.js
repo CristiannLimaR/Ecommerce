@@ -24,7 +24,7 @@ export const loginValidator = [
 export const productValidator = [
     body('name', 'The name is required').notEmpty(),
     body('description', 'description is required').notEmpty(),
-    body('description', 'The max length is 50 characters').isLength({max: 50}),
+    body('description', 'The max length is 200 characters').isLength({max: 200}),
     body('price', 'The price is required').notEmpty(),
     body('price', 'The price must be a positive value').toFloat().isFloat({min: 0}),
     body('stock', 'The stock is required').notEmpty(),
@@ -56,6 +56,14 @@ export const updateUserValidator = [
     body("username").custom(existUsername),
     body("currentPassword", "The old password is required").optional().notEmpty(),
     body("password", "Password must be at least 8 characters").optional().isLength({ min: 8 }),
+    body('phone').isNumeric().isLength({min: 8, max: 8}).withMessage('The phone must have a 8 characters and a numeric character'),
     body("role").optional().custom(isRoleValid),
     validateFields,
-  ];
+]
+
+
+export const addToCartValidator = [
+    body("quantity").exists().isInt({ min: 1 }).withMessage("The quantity must be a positive integer"),
+    param("productId", "It is not a valid id").isMongoId(),
+    validateFields,
+]

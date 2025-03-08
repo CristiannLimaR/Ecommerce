@@ -21,6 +21,13 @@ export const completePurchase = async (req, res) => {
           msg: `Not enough stock for ${item.product.name}`,
         });
       }
+
+      if(!item.product.state){
+        return res.status(404).json({
+          success: false,
+          msg: "can not buy a inactive product",
+        });
+      }
       await Product.findByIdAndUpdate(item.product._id, {
         $inc: { stock: -item.quantity, sales: +item.quantity },
       });

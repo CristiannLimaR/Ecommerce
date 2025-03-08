@@ -14,7 +14,7 @@ const CartSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: "Product",
         required: true,
-        autopopulate: {select: 'name price stock'}
+        autopopulate: {select: 'name price stock state'}
       },
       quantity: {
         type: Number,

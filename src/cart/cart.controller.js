@@ -148,7 +148,7 @@ export const updateCart = async (req, res) => {
       if(!product.state){
         return res.status(404).json({
           success: false,
-          msg: "Product inactive"
+          msg: `product inactive: ${product.name}`
         })
       }
 

@@ -13,7 +13,7 @@ router.get("/", getUsers);
 router.get(
   "/:userId",
   [
-    check("userId", "No es un ID valido").isMongoId(),
+    check("userId", "It is not a valid id").isMongoId(),
     check("userId").custom(existsUserById),
     validateFields,
   ],
@@ -25,7 +25,7 @@ router.put(
   "/:userId",
   [
     validateJWT,
-    check("userId", "No es un ID valido").isMongoId(),
+    check("userId", "It is not a valid id").isMongoId(),
     updateUserValidator,
     validateFields,
   ],
@@ -37,7 +37,7 @@ router.delete(
   "/:userId",
   [
     validateJWT,
-    check("userId", "No es un ID valido").isMongoId(),
+    check("userId", "It is not a valid id").isMongoId(),
     check("userId").custom(existsUserById),
     check("password").exists().withMessage('Password is required to confirm deletion'),
     validateFields

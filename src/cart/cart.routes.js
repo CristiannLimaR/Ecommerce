@@ -9,7 +9,7 @@ import {
   getCart,
   updateCart,
 } from "./cart.controller.js";
-import { itemValidator } from "../middlewares/validator.js";
+import { addToCartValidator, itemValidator } from "../middlewares/validator.js";
 
 const router = Router();
 
@@ -19,11 +19,7 @@ router.post(
   "/addToCart/:productId",
   [
     validateJWT,
-    check("quantity")
-      .exists()
-      .isInt({ min: 1 })
-      .withMessage("The quantity must be a positive integer"),
-    check("productId", "It is not a valid id").isMongoId(),
+    addToCartValidator,
     validateFields,
   ],
   addToCart

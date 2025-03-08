@@ -249,7 +249,7 @@ export const deleteProduct = async (req, res) => {
     const { productId } = req.params;
 
     const product = await Product.findByIdAndUpdate(
-      id,
+      productId,
       { state: false },
       { new: true }
     );
@@ -261,23 +261,6 @@ export const deleteProduct = async (req, res) => {
       });
     }
 
-    await Cart.updateMany(
-      { "items.product": productId },
-      { $pull: { items: { product: productId } } }
-    );
-
-    const carts = await Cart.find({ "items.product": productId });
-
-    for (const cart of carts) {
-      let total = 0;
-      for (const item of cart.items) {
-        const product = await Product.findById(item.product);
-        total += product.price * item.quantity;
-      }
-      cart.total = total;
-
-      await cart.save();
-    }
 
     res.status(200).json({
       success: true,
