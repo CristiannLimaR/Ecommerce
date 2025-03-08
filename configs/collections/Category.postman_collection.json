@@ -1,0 +1,141 @@
+{
+	"info": {
+		"_postman_id": "be672dd4-f0a5-4e27-9cba-282371e460d2",
+		"name": "Category",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42149033"
+	},
+	"item": [
+		{
+			"name": "getCategories",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-token",
+						"value": "{{jwtToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/ecommerce/v1/categories",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"ecommerce",
+						"v1",
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addCategory",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-token",
+						"value": "{{jwtToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Computadoras\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/ecommerce/v1/categories",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"ecommerce",
+						"v1",
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateCategorie",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-token",
+						"value": "{{jwtToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Videojuegos\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/ecommerce/v1/categories/67bb53732771dc4637b84afe",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"ecommerce",
+						"v1",
+						"categories",
+						"67bb53732771dc4637b84afe"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteCategorie",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-token",
+						"value": "{{jwtToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/ecommerce/v1/categories/67bbd2177286d8fc54073085",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"ecommerce",
+						"v1",
+						"categories",
+						"67bbd2177286d8fc54073085"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

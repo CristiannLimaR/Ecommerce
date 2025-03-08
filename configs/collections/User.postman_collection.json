@@ -1,0 +1,127 @@
+{
+	"info": {
+		"_postman_id": "d198ee37-186d-478d-b39d-3c887c113cda",
+		"name": "User",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42149033"
+	},
+	"item": [
+		{
+			"name": "getUsers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/ecommerce/v1/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"ecommerce",
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "findUser",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/ecommerce/v1/users/67b4a176e606e4623af7a9c4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"ecommerce",
+						"v1",
+						"users",
+						"67b4a176e606e4623af7a9c4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateUser",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-token",
+						"value": "{{jwtToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Cristiann\",\r\n    \"email\": \"cristiann2@gmail.com\",\r\n    \"surname\": \"Lima\",\r\n    \"username\": \"LordCrisss\",\r\n    \"password\": \"123456789\",\r\n    \"currentPassword\": \"12345678\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/ecommerce/v1/users/67caf95db149d8257e7400de",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"ecommerce",
+						"v1",
+						"users",
+						"67caf95db149d8257e7400de"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteUser",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-token",
+						"value": "{{jwtToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"password\": \"123456789\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/ecommerce/v1/users/67caf95db149d8257e7400de",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"ecommerce",
+						"v1",
+						"users",
+						"67caf95db149d8257e7400de"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,52 @@
+[{
+  "_id": {
+    "$oid": "67bb53732771dc4637b84afe"
+  },
+  "name": "VIDEOJUEGOS",
+  "state": true,
+  "createdAt": {
+    "$date": "2025-02-23T16:57:23.739Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-23T17:05:10.662Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67c46314f5f1b114dfcca979"
+  },
+  "name": "GENERAL",
+  "state": true,
+  "createdAt": {
+    "$date": "2025-03-02T13:54:28.632Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-02T13:54:28.632Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67cb00568c577a74adf2d7fa"
+  },
+  "name": "COMPUTADORAS",
+  "state": true,
+  "createdAt": {
+    "$date": "2025-03-07T14:19:02.768Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-07T14:19:02.768Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67cbaa4425cb990d240702c2"
+  },
+  "name": "SMARTPHONES",
+  "state": false,
+  "createdAt": {
+    "$date": "2025-03-08T02:24:04.187Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-08T02:34:56.046Z"
+  }
+}]

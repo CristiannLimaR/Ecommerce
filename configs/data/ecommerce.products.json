@@ -1,0 +1,140 @@
+[{
+  "_id": {
+    "$oid": "67bbd3dc52feb562d01ae905"
+  },
+  "name": "ASUS ROG STRIX G16",
+  "description": "Laptop gamer con Intel® Core ™ i9 14900HX y una GPU para computadora portátil NVIDIA GeForce RTX 4060",
+  "price": 13499.99,
+  "stock": 21,
+  "category": {
+    "$oid": "67c46314f5f1b114dfcca979"
+  },
+  "sales": 4,
+  "state": true,
+  "createdAt": {
+    "$date": "2025-02-24T02:05:16.183Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-07T15:15:08.666Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67bbd91b4d8d0dd02b400a2b"
+  },
+  "name": "Lenovo ThinPad",
+  "description": "Laptop perfecta para estudio",
+  "price": 5000,
+  "stock": 0,
+  "category": {
+    "$oid": "67c46314f5f1b114dfcca979"
+  },
+  "sales": 0,
+  "state": true,
+  "createdAt": {
+    "$date": "2025-02-24T02:27:39.972Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-02T13:54:28.651Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67bddd1228d7abf852b79cfd"
+  },
+  "name": "iphone 2",
+  "description": "celular de ultima generacion",
+  "price": 5000,
+  "stock": 0,
+  "category": {
+    "$oid": "67c46314f5f1b114dfcca979"
+  },
+  "sales": 20,
+  "state": true,
+  "createdAt": {
+    "$date": "2025-02-25T15:09:06.619Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-02T18:18:13.456Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67caa77d29860b5c6eedb3a0"
+  },
+  "name": "GTA 6",
+  "description": "juego del siglo",
+  "price": 799.99,
+  "stock": 7,
+  "category": {
+    "$oid": "67bb53732771dc4637b84afe"
+  },
+  "sales": 18,
+  "state": true,
+  "createdAt": {
+    "$date": "2025-03-07T07:59:57.408Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-07T15:15:08.661Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67cb00d78c577a74adf2d800"
+  },
+  "name": "Mario Galaxy 3",
+  "description": "Tercera edición de mario galaxia",
+  "price": 799.99,
+  "stock": 51,
+  "category": {
+    "$oid": "67bb53732771dc4637b84afe"
+  },
+  "sales": 30,
+  "state": true,
+  "createdAt": {
+    "$date": "2025-03-07T14:21:11.251Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-07T15:15:08.653Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67cbab9e0f736767cbb71738"
+  },
+  "name": "Celular Apple iPhone 16 Pro Max",
+  "description": "Celular Apple iPhone 16 Pro Max, 16GB RAM, 512GB Almacenamineto, Titanio Natural, Liberado",
+  "price": 11995.99,
+  "stock": 0,
+  "category": {
+    "$oid": "67c46314f5f1b114dfcca979"
+  },
+  "sales": 25,
+  "state": true,
+  "createdAt": {
+    "$date": "2025-03-08T02:29:50.724Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-08T03:35:26.159Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67cbaca30f736767cbb71749"
+  },
+  "name": "Celular Samsung S24 Ultra",
+  "description": "Celular Samsung S24 Ultra, 12GB RAM, 256GB Almacenamiento, Color Negro, Liberado",
+  "price": 8199,
+  "stock": 50,
+  "category": {
+    "$oid": "67c46314f5f1b114dfcca979"
+  },
+  "sales": 0,
+  "state": false,
+  "createdAt": {
+    "$date": "2025-03-08T02:34:11.232Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-08T02:44:51.005Z"
+  }
+}]

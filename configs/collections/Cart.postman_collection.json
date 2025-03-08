@@ -1,0 +1,167 @@
+{
+	"info": {
+		"_postman_id": "4c755f15-1c76-43e4-b1cb-5ee0d1583b97",
+		"name": "Cart",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42149033"
+	},
+	"item": [
+		{
+			"name": "addtoCart",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-token",
+						"value": "{{jwtToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"quantity\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/ecommerce/v1/cart/addToCart/67cbab9e0f736767cbb71738",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"ecommerce",
+						"v1",
+						"cart",
+						"addToCart",
+						"67cbab9e0f736767cbb71738"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCart",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-token",
+						"value": "{{jwtToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/ecommerce/v1/cart",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"ecommerce",
+						"v1",
+						"cart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateCart",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-token",
+						"value": "{{jwtToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"items\": [\r\n        {\r\n            \"product\": \"67cbab9e0f736767cbb71738\",\r\n            \"quantity\": 2\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/ecommerce/v1/cart",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"ecommerce",
+						"v1",
+						"cart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteProductOnCart",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-token",
+						"value": "{{jwtToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/ecommerce/v1/cart/67c626bdb84e59a75cbd852c",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"ecommerce",
+						"v1",
+						"cart",
+						"67c626bdb84e59a75cbd852c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "clearCart",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-token",
+						"value": "{{jwtToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/ecommerce/v1/cart/clearcart",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"ecommerce",
+						"v1",
+						"cart",
+						"clearcart"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
